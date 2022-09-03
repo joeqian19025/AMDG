@@ -1,0 +1,4 @@
+.DS_Store
+*.pyc
+mask/experiment_folder/
+mask/unet/unet_carvana_scale0.5_epoch2.pth
