@@ -1,6 +1,8 @@
 from prepare import *
 from mask import Mask, Classifier, MaskTrainer
 
+args.num_classes = 7
+
 save_name = "{}/{}_seed{}_env{}".format(
     args.experiment_path, args.dataset, args.seed, args.test_envs,
 )
