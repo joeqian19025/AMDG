@@ -22,6 +22,4 @@ class AverageMeter(object):
 
 
 def get_save_name(args):
-    return "{}_seed{}_env{}".format(
-        args.dataset, args.seed, args.test_envs,
-    )
+    return "{}_seed{}_env{}".format(args.dataset, args.seed, args.test_envs,)

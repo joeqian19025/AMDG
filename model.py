@@ -48,18 +48,21 @@ class ClassifierTrainer(nn.Module):
 
     def train_epoch(self, dataloader):
         total_loss = 0
+        self.model.train()
         for image, label in dataloader:
             image = image.to(self.device)
             label = label.to(self.device)
-
             rep = self.model.encoder(image)
             mask_image = self.mask(image) * image
             mask_rep = self.model.encoder(mask_image.detach())
 
-            pred = self.model.classifier(rep)
-            mask_pred = self.model.classifier(mask_rep)
-
-            loss = encoder_loss(rep, mask_rep, pred, mask_pred, label)
+            loss = encoder_loss(
+                rep,
+                mask_rep,
+                self.model.classifier(rep),
+                self.model.classifier(mask_rep),
+                label,
+            )
             total_loss = loss.item() + total_loss
             self.optimizer.zero_grad()
             loss.backward()
@@ -68,6 +71,7 @@ class ClassifierTrainer(nn.Module):
 
     def calc_acc(self, dataloader):
         acc_meter = AverageMeter()
+        self.model.eval()
         for image, label in dataloader:
             image = image.to(self.device)
             label = label.to(self.device)
