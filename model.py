@@ -34,6 +34,9 @@ class Classifier(nn.Module):
 class ClassifierTrainer(nn.Module):
     def __init__(self, args):
         super(ClassifierTrainer, self).__init__()
+        for name in args.__dict__:
+            setattr(self, name, getattr(args, name))
+
         self.model = Classifier(args)
         self.mask = Mask(args)
         self.mask.load_state_dict(torch.load(args.mask_path))
