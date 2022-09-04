@@ -21,7 +21,7 @@ if args.dataset == "pacs":
 
 valloader = torch.utils.data.DataLoader(
     valset,
-    batch_size=args.batch_size,
+    batch_size=args.batchsize,
     shuffle=True,
     sampler=None,
     num_workers=4,
@@ -29,7 +29,7 @@ valloader = torch.utils.data.DataLoader(
 
 trainloader = torch.utils.data.Dataloader(
     trainset,
-    batch_size=args.batch_size,
+    batch_size=args.batchsize,
     shuffle=True,
     sampler=None,
     num_workers=4,
