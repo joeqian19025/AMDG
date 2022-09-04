@@ -44,4 +44,4 @@ def calc_acc(mask_trainer, dataloader, device):
         inverse_mask_acc = (torch.argmax(inverse_mask_pred, 1) == label).float().mean()
         mask_acc_meter.update(mask_acc, image.shape[0])
         inverse_mask_acc_meter.update(inverse_mask_acc, image.shape[0])
-    return mask_acc_meter.average(), inverse_mask_acc_meter.average()
+    return mask_acc_meter.average().float(), inverse_mask_acc_meter.average().float()

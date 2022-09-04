@@ -16,7 +16,7 @@ if args.dataset == "pacs":
         args.train_val_ratio,
     )
 
-    # trainset = torch.utils.data.ConcatDataset(pacs_dataset.trainsets)
+    trainset = torch.utils.data.ConcatDataset(pacs_dataset.trainsets)
     valset = torch.utils.data.ConcatDataset(pacs_dataset.valsets)
 
 valloader = torch.utils.data.DataLoader(
@@ -27,7 +27,7 @@ valloader = torch.utils.data.DataLoader(
     num_workers=4,
 )
 
-# trainloader = torch.utils.data.DataLoader(trainset,batch_size=args.batchsize,shuffle=True,sampler=None,num_workers=4,)
+trainloader = torch.utils.data.DataLoader(trainset,batch_size=args.batchsize,shuffle=True,sampler=None,num_workers=4,)
 
 save_name = get_save_name(args)
 
@@ -39,5 +39,5 @@ print("Model Loaded")
 mask_trainer = mask_trainer.to(args.device)
 print("Model Sent to Device")
 
-# print(f"train acc: {calc_acc(mask_trainer, trainloader, args.device)}")
+print(f"train acc: {calc_acc(mask_trainer, trainloader, args.device)}")
 print(f"val acc: {calc_acc(mask_trainer, valloader, args.device)}")
