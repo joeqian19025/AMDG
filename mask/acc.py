@@ -1,5 +1,6 @@
 from prepare import *
 from mask import Mask, Classifier, MaskTrainer
+from utils import *
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 args.device = device
@@ -34,5 +35,15 @@ trainloader = torch.utils.data.Dataloader(
     num_workers=4,
 )
 
-for image, label in trainloader:
-    image = image.to(args.device)
+save_name = get_save_name(args)
+
+mask = Mask(args)
+classifier = Classifier(args)
+mask_trainer = MaskTrainer(mask, classifier, args)
+mask_trainer.load_state_dict(torch.load(save_name + ".pt"))
+print("Model Loaded")
+mask_trainer = mask_trainer.to(args.device)
+print("Model Sent to Device")
+
+print(f"train acc: {calc_acc(mask_trainer.mask, mask_trainer.classifier, trainloader, args.device)}")
+print(f"train acc: {calc_acc(mask_trainer.mask, mask_trainer.classifier, valloader, args.device)}")
