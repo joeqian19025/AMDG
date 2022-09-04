@@ -14,9 +14,8 @@ parser.add_argument("--encoder_pretrained", type=str, default="True")
 parser.add_argument("--mask_model", type=str, default="unet")
 parser.add_argument("--mask_pretrained", type=str, default="False")
 parser.add_argument(
-    "--mask_path", type=str, default="./mask/unet/unet_carvana_scale0.5_epoch2.pth",
+    "--mask_path", type=str, default="./mask/experiment_folder"
 )
-
 parser.add_argument("--bilinear", action="store_true", default=False)
 
 parser.add_argument("--dataset", type=str, default="pacs")
