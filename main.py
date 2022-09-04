@@ -56,7 +56,7 @@ history = {
     "test_acc": [],
 }
 
-for epoch in range(args.mask_epochs):
+for epoch in range(args.encoder_epochs):
     loss = trainer.train_epoch(trainloader)
     train_acc = trainer.calc_acc(trainloader)
     val_acc = trainer.calc_acc(valloader)
