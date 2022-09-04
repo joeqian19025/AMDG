@@ -7,6 +7,8 @@ from argument import *
 args = parser.parse_args()
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.cuda.is_available():
+    torch.cuda.empty_cache()
 args.device = device
 
 print(args)
