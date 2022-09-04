@@ -17,15 +17,10 @@ if args.dataset == "pacs":
     args.num_classes = 7
 
     pacs_dataset = PACSWithVal(
-        args.dataset_folder,
-        args.test_envs,
-        args.train_val_ratio,
+        args.dataset_folder, args.test_envs, args.train_val_ratio,
     )
     transform = transforms.Compose(
-        [
-            transforms.Resize(224),
-            transforms.ToTensor(),
-        ]
+        [transforms.Resize(224), transforms.ToTensor(),]
     )
     for valset in pacs_dataset.valsets:
         valset.dataset = copy.copy(valset.dataset)
@@ -33,18 +28,11 @@ if args.dataset == "pacs":
     valset = torch.utils.data.ConcatDataset(pacs_dataset.valsets)
 
 valloader = torch.utils.data.DataLoader(
-    valset,
-    batch_size=1,
-    shuffle=True,
-    sampler=None,
-    num_workers=4,
+    valset, batch_size=1, shuffle=True, sampler=None, num_workers=4,
 )
 
 save_name = "{}/{}_seed{}_env{}".format(
-    args.experiment_path,
-    args.dataset,
-    args.seed,
-    args.test_envs,
+    args.experiment_path, args.dataset, args.seed, args.test_envs,
 )
 
 mask = Mask(args)

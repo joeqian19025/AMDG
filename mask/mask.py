@@ -73,10 +73,8 @@ class MaskTrainer(nn.Module):
             momentum=0.9,
             weight_decay=self.weight_decay,
         )
-        self.classifier_lr_scheduler = (
-            torch.optim.lr_scheduler.CosineAnnealingLR(
-                self.classifier_optimizer, self.mask_epochs
-            )
+        self.classifier_lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            self.classifier_optimizer, self.mask_epochs
         )
 
     def train_epoch(self, dataloader):

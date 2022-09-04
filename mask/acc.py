@@ -11,13 +11,12 @@ if args.dataset == "pacs":
     args.num_classes = 7
 
     pacs_dataset = PACSWithVal(
-        args.dataset_folder,
-        args.test_envs,
-        args.train_val_ratio,
+        args.dataset_folder, args.test_envs, args.train_val_ratio,
     )
 
     trainset = torch.utils.data.ConcatDataset(pacs_dataset.trainsets)
     valset = torch.utils.data.ConcatDataset(pacs_dataset.valsets)
+    test_set = torch.utils.data.ConcatDataset(pacs_dataset.testsets)
 
 valloader = torch.utils.data.DataLoader(
     valset,
@@ -27,7 +26,21 @@ valloader = torch.utils.data.DataLoader(
     num_workers=4,
 )
 
-trainloader = torch.utils.data.DataLoader(trainset,batch_size=args.batchsize,shuffle=True,sampler=None,num_workers=4,)
+trainloader = torch.utils.data.DataLoader(
+    trainset,
+    batch_size=args.batchsize,
+    shuffle=True,
+    sampler=None,
+    num_workers=4,
+)
+
+testloader = torch.utils.data.DataLoader(
+    testset,
+    batch_size=args.batchsize,
+    shuffle=True,
+    sampler=None,
+    num_workers=4,
+)
 
 save_name = get_save_name(args)
 
@@ -41,3 +54,4 @@ print("Model Sent to Device")
 
 print(f"train acc: {calc_acc(mask_trainer, trainloader, args.device)}")
 print(f"val acc: {calc_acc(mask_trainer, valloader, args.device)}")
+print(f"test acc: {calc_acc(mask_trainer, testloader, args.device)}")

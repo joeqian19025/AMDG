@@ -1,12 +1,11 @@
 import torch
 
+
 def get_save_name(args):
-    return  "{}/{}_seed{}_env{}".format(
-    args.experiment_path,
-    args.dataset,
-    args.seed,
-    args.test_envs,
-)
+    return "{}/{}_seed{}_env{}".format(
+        args.experiment_path, args.dataset, args.seed, args.test_envs,
+    )
+
 
 class AverageMeter(object):
     def __init__(self):
@@ -41,7 +40,12 @@ def calc_acc(mask_trainer, dataloader, device):
         mask_pred = mask_trainer.classifier(image * mask)
         inverse_mask_pred = mask_trainer.classifier((1 - mask) * image)
         mask_acc = (torch.argmax(mask_pred, 1) == label).float().mean()
-        inverse_mask_acc = (torch.argmax(inverse_mask_pred, 1) == label).float().mean()
+        inverse_mask_acc = (
+            (torch.argmax(inverse_mask_pred, 1) == label).float().mean()
+        )
         mask_acc_meter.update(mask_acc, image.shape[0])
         inverse_mask_acc_meter.update(inverse_mask_acc, image.shape[0])
-    return mask_acc_meter.average().float(), inverse_mask_acc_meter.average().float()
+    return (
+        mask_acc_meter.average().float(),
+        inverse_mask_acc_meter.average().float(),
+    )

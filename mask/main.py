@@ -13,9 +13,7 @@ if args.dataset == "pacs":
     args.num_classes = 7
 
     pacs_dataset = PACSWithVal(
-        args.dataset_folder,
-        args.test_envs,
-        args.train_val_ratio,
+        args.dataset_folder, args.test_envs, args.train_val_ratio,
     )
     trainset = torch.utils.data.ConcatDataset(pacs_dataset.trainsets)
 
@@ -40,10 +38,7 @@ trainloader = torch.utils.data.DataLoader(
 )
 
 save_name = "{}/{}_seed{}_env{}".format(
-    args.experiment_path,
-    args.dataset,
-    args.seed,
-    args.test_envs,
+    args.experiment_path, args.dataset, args.seed, args.test_envs,
 )
 
 history = {
