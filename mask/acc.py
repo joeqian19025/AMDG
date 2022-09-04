@@ -27,13 +27,7 @@ valloader = torch.utils.data.DataLoader(
     num_workers=4,
 )
 
-trainloader = torch.utils.data.Dataloader(
-    trainset,
-    batch_size=args.batchsize,
-    shuffle=True,
-    sampler=None,
-    num_workers=4,
-)
+trainloader = torch.utils.data.DataLoader(trainset,batch_size=args.batchsize,shuffle=True,sampler=None,num_workers=4,)
 
 save_name = get_save_name(args)
 
