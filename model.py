@@ -21,12 +21,6 @@ class Classifier(nn.Module):
             self.encoder = torch.nn.Sequential(*(list(model.children())[:-1]))
             self.classifier = nn.Linear(model.fc.in_features, self.num_classes)
 
-    def encode(self, x):
-        return self.encode(x)
-
-    def classify(self, x):
-        return self.classify(x)
-
     def forward(self, x):
         return self.classifier(self.encoder(x))
 
@@ -57,12 +51,12 @@ class ClassifierTrainer(nn.Module):
             image = image.to(self.device)
             label = label.to(self.device)
 
-            rep = self.model.encode(image)
+            rep = self.model.encoder(image)
             mask_image = self.mask(image) * image
-            mask_rep = self.model.encode(mask_image.detach())
+            mask_rep = self.model.encoder(mask_image.detach())
 
-            pred = self.model.classify(rep)
-            mask_pred = self.model.classify(mask_rep)
+            pred = self.model.classifier(rep)
+            mask_pred = self.model.classifier(mask_rep)
 
             loss = encoder_loss(rep, mask_rep, pred, mask_pred, label)
             total_loss = loss + total_loss
