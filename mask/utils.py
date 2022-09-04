@@ -31,15 +31,15 @@ class AverageMeter(object):
             return "%.4f" % (r)
 
 
-def calc_acc(mask, classifier, dataloader, device):
+def calc_acc(mask_trainer, dataloader, device):
     mask_acc_meter = AverageMeter()
     inverse_mask_acc_meter = AverageMeter()
     mask.eval(); classifier.eval()
     for image, label in dataloader:
         image, label = image.to(device), label.to(device)
-        mask = mask(image)
-        mask_pred = classifier(image * mask)
-        inverse_mask_pred = classifier((1 - mask) * image)
+        mask = mask_trainer.mask(image)
+        mask_pred = mask_trainer.classifier(image * mask)
+        inverse_mask_pred = mask_trainer.classifier((1 - mask) * image)
         mask_acc = (torch.argmax(mask_pred, 1) == label).float().mean()
         inverse_mask_acc = (torch.argmax(inverse_mask_pred, 1) == label).float().mean()
         mask_acc_meter.update(mask_acc, image.shape[0])
