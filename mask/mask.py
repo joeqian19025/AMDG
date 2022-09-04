@@ -3,9 +3,9 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
-from unet import UNet
+from mask.unet import UNet
 import torch.nn.functional as F
-import criterions.mask_loss as Loss
+import mask.criterions.mask_loss as Loss
 
 # The Mask Model
 class Mask(nn.Module):
