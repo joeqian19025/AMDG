@@ -17,9 +17,6 @@ parser.add_argument(
     "--mask_path", type=str, default="./unet/unet_carvana_scale0.5_epoch2.pth",
 )
 
-parser.add_argument(
-    "--mask_path", type=str, default="./mask/experiment_folder"
-)
 parser.add_argument("--bilinear", action="store_true", default=False)
 
 parser.add_argument("--dataset", type=str, default="pacs")
