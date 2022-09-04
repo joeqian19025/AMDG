@@ -40,4 +40,4 @@ mask_trainer = mask_trainer.to(args.device)
 print("Model Sent to Device")
 
 # print(f"train acc: {calc_acc(mask_trainer, trainloader, args.device)}")
-print(f"train acc: {calc_acc(mask_trainer, valloader, args.device)}")
+print(f"val acc: {calc_acc(mask_trainer, valloader, args.device)}")
