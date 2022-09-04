@@ -19,7 +19,8 @@ class Classifier(nn.Module):
             else:
                 model = models.resnet18(pretrained=False)
             self.classifier = nn.Linear(model.fc.in_features, self.num_classes)
-            self.encoder = torch.nn.Sequential(*(list(model.children())[:-1]))
+            model.fc = nn.Identity(model.fc.in_features)
+            self.encoder = model
 
     def forward(self, x):
         return self.classifier(self.encoder(x))
