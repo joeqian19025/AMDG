@@ -44,7 +44,7 @@ testloader = torch.utils.data.DataLoader(
 )
 
 save_name = f"{args.experiment_path}/" + get_save_name(args) + "_encoder"
-args.mask_path = f"{args.mask_path}/" + get_save_name(args) + "_mask"
+args.mask_path = f"{args.mask_path}/" + get_save_name(args) + "_mask.pt"
 
 trainer = ClassifierTrainer(args)
 trainer.to(args.device)
