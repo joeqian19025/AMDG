@@ -34,7 +34,7 @@ class AverageMeter(object):
 def calc_acc(mask_trainer, dataloader, device):
     mask_acc_meter = AverageMeter()
     inverse_mask_acc_meter = AverageMeter()
-    mask.eval(); classifier.eval()
+    mask_trainer.mask.eval(); mask_trainer.classifier.eval()
     for image, label in dataloader:
         image, label = image.to(device), label.to(device)
         mask = mask_trainer.mask(image)
