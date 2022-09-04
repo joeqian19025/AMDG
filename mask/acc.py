@@ -16,7 +16,7 @@ if args.dataset == "pacs":
 
     trainset = torch.utils.data.ConcatDataset(pacs_dataset.trainsets)
     valset = torch.utils.data.ConcatDataset(pacs_dataset.valsets)
-    test_set = torch.utils.data.ConcatDataset(pacs_dataset.testsets)
+    testset = torch.utils.data.ConcatDataset(pacs_dataset.testsets)
 
 valloader = torch.utils.data.DataLoader(
     valset,
