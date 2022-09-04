@@ -56,8 +56,6 @@ history = {
     "test_acc": [],
 }
 
-print(torch.cuda.memory_summary(device=None, abbreviated=False))
-
 for epoch in range(args.encoder_epochs):
     loss = trainer.train_epoch(trainloader)
     train_acc = trainer.calc_acc(trainloader)

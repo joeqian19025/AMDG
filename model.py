@@ -60,7 +60,7 @@ class ClassifierTrainer(nn.Module):
             mask_pred = self.model.classifier(mask_rep)
 
             loss = encoder_loss(rep, mask_rep, pred, mask_pred, label)
-            total_loss = loss + total_loss
+            total_loss = loss.item() + total_loss
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
