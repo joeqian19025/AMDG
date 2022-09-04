@@ -3,7 +3,7 @@ import torch.nn as nn
 import torchvision.models as models
 
 from criterions.encoder_loss import encoder_loss
-from mask.unet import UNet
+from mask.mask import Mask
 from utils import AverageMeter
 
 
@@ -35,7 +35,7 @@ class ClassifierTrainer(nn.Module):
     def __init__(self, args):
         super(ClassifierTrainer, self).__init__()
         self.model = Classifier(args)
-        self.mask = UNet(3, 2, args.bilinear)
+        self.mask = Mask(args)
         self.mask.load_state_dict(torch.load(args.mask_path))
 
         self.optimizer = torch.optim.SGD(

@@ -11,6 +11,12 @@ parser.add_argument("--seed", type=int, default=0)
 parser.add_argument("--encoder", type=str, default="resnet18")
 parser.add_argument("--encoder_pretrained", type=str, default="True")
 
+parser.add_argument("--mask_model", type=str, default="unet")
+parser.add_argument("--mask_pretrained", type=str, default="False")
+parser.add_argument(
+    "--mask_path", type=str, default="./unet/unet_carvana_scale0.5_epoch2.pth",
+)
+
 parser.add_argument(
     "--mask_path", type=str, default="./mask/experiment_folder"
 )
