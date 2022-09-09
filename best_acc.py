@@ -1,4 +1,4 @@
-import pd
+import pandas as pd
 from utils import get_save_name
 from argument import *
 
