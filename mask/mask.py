@@ -40,8 +40,13 @@ class Classifier(nn.Module):
                 model = models.resnet18(pretrained=True)
             else:
                 model = models.resnet18(pretrained=False)
-            model.fc = nn.Linear(model.fc.in_features, self.num_classes)
-            self.model = model
+        elif self.encoder == "resnet50":
+            if self.encoder_pretrained == "True":
+                model = models.resnet50(weights="IMAGENET1K_V2")
+            else:
+                model = models.resnet50(weights=None)
+        model.fc = nn.Linear(model.fc.in_features, self.num_classes)
+        self.model = model
 
     def forward(self, x):
         return self.model(x)

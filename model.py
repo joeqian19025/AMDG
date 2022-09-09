@@ -18,9 +18,15 @@ class Classifier(nn.Module):
                 model = models.resnet18(pretrained=True)
             else:
                 model = models.resnet18(pretrained=False)
-            self.classifier = nn.Linear(model.fc.in_features, self.num_classes)
-            model.fc = nn.Identity(model.fc.in_features)
-            self.encoder = model
+        elif self.encoder == "resnet50":
+            if self.encoder_pretrained == "True":
+                model = models.resnet50(weights="IMAGENET1K_V2")
+            else:
+                model = models.resnet50(weights=None)
+        self.classifier = nn.Linear(model.fc.in_features, self.num_classes)
+        model.fc = nn.Identity(model.fc.in_features)
+        self.encoder = model
+
         if torch.cuda.device_count() > 1:
             self.classifier = nn.DataParallel(self.classifier)
             self.encoder = nn.DataParallel(self.encoder)
