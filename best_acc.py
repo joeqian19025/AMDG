@@ -4,8 +4,8 @@ from argument import *
 
 args = parser.parse_args()
 
-print(df)
 df = pd.read_csv(f"{args.experiment_path}/" + get_save_name(args) + "_encoder.csv")
+print(df)
 if len(df) > 100:
     df=df[0:100]
 
