@@ -6,8 +6,9 @@ args = parser.parse_args()
 
 df = pd.read_csv(f"{args.experiment_path}/" + get_save_name(args) + "_encoder.csv")
 if len(df) > 100:
-    df=df[:100]
+    df=df[0:100]
 
+print(df)
 best_idx = df.idxmax()["val_acc"]
 print(f"best val accuracy achieved in epoch: {best_idx}")
 
