@@ -35,6 +35,10 @@ class ClassifierTrainer(nn.Module):
         self.model = Classifier(args)
         self.mask = Mask(args)
         self.mask.load_state_dict(torch.load(args.mask_path))
+        if torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs!")
+            self.model = nn.DataParallel(self.model)
+            self.mask = nn.DataParallel(self.mask)
 
         self.optimizer = torch.optim.SGD(
             self.model.parameters(),
@@ -46,14 +50,16 @@ class ClassifierTrainer(nn.Module):
             self.optimizer, self.encoder_epochs
         )
 
-    def train_epoch(self, dataloader):
+    def train_epoch(self, dataloader, alpha):
         total_loss = 0
         self.model.train()
         for image, label in dataloader:
             image = image.to(self.device)
             label = label.to(self.device)
             rep = self.model.encoder(image)
-            mask_image = self.mask(image) * image
+            self.mask.eval()
+            with torch.no_grad():
+                mask_image = self.mask(image) * image
             mask_rep = self.model.encoder(mask_image.detach())
 
             loss = encoder_loss(
@@ -62,6 +68,7 @@ class ClassifierTrainer(nn.Module):
                 self.model.classifier(rep),
                 self.model.classifier(mask_rep),
                 label,
+                alpha
             )
             total_loss = loss.item() + total_loss
             self.optimizer.zero_grad()
@@ -72,12 +79,13 @@ class ClassifierTrainer(nn.Module):
     def calc_acc(self, dataloader):
         acc_meter = AverageMeter()
         self.model.eval()
-        for image, label in dataloader:
-            image = image.to(self.device)
-            label = label.to(self.device)
+        with torch.no_grad():
+            for image, label in dataloader:
+                image = image.to(self.device)
+                label = label.to(self.device)
 
-            pred = self.model(image)
+                pred = self.model(image)
 
-            acc = (torch.argmax(pred, 1) == label).float().mean()
-            acc_meter.update(acc, image.shape[0])
+                acc = (torch.argmax(pred, 1) == label).float().mean()
+                acc_meter.update(acc, image.shape[0])
         return acc_meter.average().item()
