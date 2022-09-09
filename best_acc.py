@@ -14,5 +14,5 @@ print(f"best val accuracy achieved in epoch: {best_idx}")
 best_val_acc = df.at[best_idx, "val_acc"]
 print(f"val acc: {best_val_acc}")
 
-test_acc = df.at[best_idx, "val_acc"]
+test_acc = df.at[best_idx, "test_acc"]
 print(f"test acc: {test_acc}")
