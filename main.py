@@ -75,4 +75,4 @@ for epoch in range(args.encoder_epochs):
         writer = csv.writer(fp)
         writer.writerow([key for key in history])
         for e in range(epoch):
-            writer.writerow([history[key][epoch] for key in history])
+            writer.writerow([history[key][e] for key in history])
