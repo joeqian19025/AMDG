@@ -8,7 +8,7 @@ df = pd.read_csv(f"{args.experiment_path}/" + get_save_name(args) + "_encoder.cs
 if len(df) > 100:
     df=df[:100]
 
-best_idx = df.argmax(axis="val_acc")
+best_idx = df.idxmax(axis="val_acc")
 print(f"best val accuracy achieved in epoch: {best_idx}")
 
 best_val_acc = df.at[best_idx, "val_acc"]
