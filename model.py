@@ -21,6 +21,9 @@ class Classifier(nn.Module):
             self.classifier = nn.Linear(model.fc.in_features, self.num_classes)
             model.fc = nn.Identity(model.fc.in_features)
             self.encoder = model
+        if torch.cuda.device_count() > 1:
+            self.classifier = nn.DataParallel(self.classifier)
+            self.encoder = nn.DataParallel(self.encoder)
 
     def forward(self, x):
         return self.classifier(self.encoder(x))
@@ -36,8 +39,6 @@ class ClassifierTrainer(nn.Module):
         self.mask = Mask(args)
         self.mask.load_state_dict(torch.load(args.mask_path))
         if torch.cuda.device_count() > 1:
-            print("Let's use", torch.cuda.device_count(), "GPUs!")
-            self.model = nn.DataParallel(self.model)
             self.mask = nn.DataParallel(self.mask)
 
         self.optimizer = torch.optim.SGD(
