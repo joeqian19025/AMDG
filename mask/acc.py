@@ -1,22 +1,29 @@
-from prepare import *
-from mask import Mask, Classifier, MaskTrainer
-from utils import *
+from mask.prepare import *
+from mask.mask import Mask, Classifier, MaskTrainer
+from mask.utils import *
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 args.device = device
 
 if args.dataset == "pacs":
-    from pacs import *
+    from datasets.pacs import *
 
     args.num_classes = 7
 
-    pacs_dataset = PACSWithVal(
+    dataset = PACSWithVal(
         args.dataset_folder, args.test_envs, args.train_val_ratio,
     )
+elif args.dataset == "domainNet":
+    from datasets.domainNet import *
 
-    trainset = torch.utils.data.ConcatDataset(pacs_dataset.trainsets)
-    valset = torch.utils.data.ConcatDataset(pacs_dataset.valsets)
-    testset = torch.utils.data.ConcatDataset(pacs_dataset.testsets)
+    args.num_classes = 345
+    dataset = DomainNetWithVal(
+        args.dataset_folder, args.test_envs, args.train_val_ratio
+    )
+
+trainset = torch.utils.data.ConcatDataset(dataset.trainsets)
+valset = torch.utils.data.ConcatDataset(dataset.valsets)
+testset = torch.utils.data.ConcatDataset(dataset.testsets)
 
 valloader = torch.utils.data.DataLoader(
     valset,

@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
-from criterions.encoder_loss import encoder_loss
+from classifier.criterions.encoder_loss import encoder_loss
 from mask.mask import Mask
-from utils import AverageMeter
+from classifier.utils import AverageMeter
 
 
 class Classifier(nn.Module):
@@ -75,7 +75,7 @@ class ClassifierTrainer(nn.Module):
                 self.model.classifier(rep),
                 self.model.classifier(mask_rep),
                 label,
-                alpha
+                alpha,
             )
             total_loss = loss.item() + total_loss
             self.optimizer.zero_grad()

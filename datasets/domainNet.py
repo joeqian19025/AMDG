@@ -1,17 +1,18 @@
 import os
 import torch
 from torchvision import transforms
-from datasets.base import MultipleEnvironmentImageFolder
+from base import MultipleEnvironmentImageFolder
 import copy
 
-class PACS(MultipleEnvironmentImageFolder):
-    CHECKPOINT_FREQ = 300
-    ENVIRONMENTS = ["A", "C", "P", "S"]
+
+class DomainNet(MultipleEnvironmentImageFolder):
+    CHECKPOINT_FREQ = 1000
+    ENVIRONMENTS = ["clip", "info", "paint", "quick", "real", "sketch"]
     def __init__(self, root, test_envs, hparams):
-        self.dir = os.path.join(root, "PACS/")
+        self.dir = os.path.join(root, "domain_net/")
         super().__init__(self.dir, test_envs, hparams['data_augmentation'], hparams)
 
-class PACSWithVal(PACS):
+class DomainNetWithVal(DomainNet):
     testsets = []
     trainsets = []
     valsets = []

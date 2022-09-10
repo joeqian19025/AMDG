@@ -18,9 +18,9 @@ class Mask(nn.Module):
             model = UNet(3, 2, args.bilinear)
             if self.mask_pretrained == "True":
                 model.load_state_dict(torch.load(args.mask_path))
-            else:
-                model = UNet(3, 2, args.bilinear)
-            self.model = model
+        self.model = model
+        if torch.cuda.device_count() > 1:
+            self.model = nn.DataParallel(self.model)
 
     def forward(self, x):
         return einops.repeat(
@@ -47,6 +47,8 @@ class Classifier(nn.Module):
                 model = models.resnet50(weights=None)
         model.fc = nn.Linear(model.fc.in_features, self.num_classes)
         self.model = model
+        if torch.cuda.device_count() > 1:
+            self.model = nn.DataParallel(self.model)
 
     def forward(self, x):
         return self.model(x)

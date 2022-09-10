@@ -4,7 +4,9 @@ from argument import *
 
 args = parser.parse_args()
 
-df = pd.read_csv(f"{args.experiment_path}/" + get_save_name(args) + "_encoder.csv")
+df = pd.read_csv(
+    f"{args.experiment_path}/" + get_save_name(args) + "_encoder.csv"
+)
 
 best_idx = df.idxmax()["val_acc"]
 print(f"best val accuracy achieved in epoch: {best_idx}")

@@ -1,5 +1,5 @@
-from prepare import *
-from mask import Mask, Classifier, MaskTrainer
+from mask.prepare import *
+from mask.mask import Mask, Classifier, MaskTrainer
 
 args.num_classes = 7
 

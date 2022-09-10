@@ -2,7 +2,7 @@ import torch
 import random
 import numpy as np
 
-from argument import *
+from classifier.argument import *
 
 args = parser.parse_args()
 

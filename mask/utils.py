@@ -50,6 +50,7 @@ def calc_mask_acc(mask_trainer, dataloader, device):
         inverse_mask_acc_meter.average().item(),
     )
 
+
 def calc_test_acc(mask_trainer, dataloader, device):
     test_acc_meter = AverageMeter()
     mask_trainer.eval()
