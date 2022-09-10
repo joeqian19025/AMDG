@@ -3,7 +3,7 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    "--experiment_path", type=str, default="./experiment_folder"
+    "--experiment_path", type=str, default="./classifier/experiment_folder"
 )
 
 parser.add_argument("--seed", type=int, default=0)
