@@ -2,7 +2,7 @@ from datetime import datetime
 import csv
 import torch
 
-from classifier.model import ClassifierTrainer
+from classifier.classifier import ClassifierTrainer
 from classifier.prepare import *
 from classifier.utils import *
 
