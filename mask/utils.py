@@ -2,8 +2,9 @@ import torch
 
 
 def get_save_name(args):
-    return "{}/{}_seed{}_env{}".format(
+    return "{}/{}_seed{}_env{}{}".format(
         args.experiment_path, args.dataset, args.seed, args.test_envs,
+        "doubleClassifier" if args.double_classifier else ""
     )
 
 

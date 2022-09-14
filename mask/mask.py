@@ -64,7 +64,6 @@ class MaskTrainer(nn.Module):
 
         self.mask = Mask(args)
         self.mask_classifier = Classifier(args)
-        self.unmask_classifier = Classifier(args)
 
         self.mask_optimizer = torch.optim.SGD(
             self.mask.parameters(),
@@ -86,15 +85,17 @@ class MaskTrainer(nn.Module):
             self.mask_classifier_optimizer, self.mask_epochs
         )
 
-        self.unmask_classifier_optimizer = torch.optim.SGD(
-            self.unmask_classifier.parameters(),
-            lr=self.lr,
-            momentum=0.9,
-            weight_decay=self.weight_decay,
-        )
-        self.unmask_classifier_lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
-            self.unmask_classifier_optimizer, self.mask_epochs
-        )
+        if args.double_classifiers:
+            self.unmask_classifier = Classifier(args)
+            self.unmask_classifier_optimizer = torch.optim.SGD(
+                self.unmask_classifier.parameters(),
+                lr=self.lr,
+                momentum=0.9,
+                weight_decay=self.weight_decay,
+            )
+            self.unmask_classifier_lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+                self.unmask_classifier_optimizer, self.mask_epochs
+            )
 
     def train_epoch(self, dataloader):
         total_mask_loss = 0
@@ -109,7 +110,7 @@ class MaskTrainer(nn.Module):
             mask_loss = Loss.mask_loss(
                 label,
                 self.mask_classifier(masked_data),
-                self.unmask_classifier(unmasked_data),
+                self.unmask_classifier(unmasked_data) if self.double_classifiers else self.mask_classifier(unmasked_data),
                 mask,
             )
             total_mask_loss = total_mask_loss + mask_loss.item()
@@ -120,14 +121,16 @@ class MaskTrainer(nn.Module):
             classifier_loss = Loss.classifier_loss(
                 label,
                 self.mask_classifier(masked_data.detach()),
-                self.unmask_classifier(unmasked_data.detach()),
+                self.unmask_classifier(unmasked_data.detach()) if self.double_classifiers else self.mask_classifier(unmasked_data.detach()),
             )
             total_classifier_loss = total_classifier_loss + classifier_loss
             self.mask_classifier_optimizer.zero_grad()
-            self.unmask_classifier_optimizer.zero_grad()
+            if self.double_classifiers:
+                self.unmask_classifier_optimizer.zero_grad()
             classifier_loss.backward()
             self.mask_classifier_optimizer.step()
-            self.unmask_classifier_optimizer.step()
+            if self.double_classifiers:
+                self.unmask_classifier_optimizer.step()
         
         return total_mask_loss, total_classifier_loss
 

@@ -16,6 +16,7 @@ parser.add_argument("--bilinear", action="store_true", default=False)
 
 parser.add_argument("--classifier", type=str, default="resnet18")
 parser.add_argument("--classifier_pretrained", type=str, default="True")
+parser.add_argument("--double_classifiers", action="store_true", default=False)
 
 parser.add_argument("--dataset", type=str, default="pacs")
 parser.add_argument("--dataset_folder", type=str, default="/scratch/local/ssd/tuan/data/")
