@@ -21,7 +21,7 @@ This folder contains the codes for training and evaluating the classification pe
 
 ### Training
 ```bash
-python classifier/main.py
+python main_classifier.py
 ```
 ### Evaluation
 ```bash
