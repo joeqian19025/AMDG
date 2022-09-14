@@ -18,7 +18,7 @@ parser.add_argument("--classifier", type=str, default="resnet18")
 parser.add_argument("--classifier_pretrained", type=str, default="True")
 
 parser.add_argument("--dataset", type=str, default="pacs")
-parser.add_argument("--dataset_folder", type=str, default="../")
+parser.add_argument("--dataset_folder", type=str, default="/scratch/local/ssd/tuan/data/")
 
 parser.add_argument("--test_envs", nargs="+", type=int, default=[0])
 parser.add_argument("--train_val_ratio", type=float, default=0.9)

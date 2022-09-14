@@ -19,7 +19,7 @@ parser.add_argument(
 parser.add_argument("--bilinear", action="store_true", default=False)
 
 parser.add_argument("--dataset", type=str, default="pacs")
-parser.add_argument("--dataset_folder", type=str, default="/scratch/local/ssd/tuan/data")
+parser.add_argument("--dataset_folder", type=str, default="/scratch/local/ssd/tuan/data/")
 
 parser.add_argument("--test_envs", nargs="+", type=int, default=[0])
 parser.add_argument("--train_val_ratio", type=float, default=0.9)
