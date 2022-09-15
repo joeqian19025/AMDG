@@ -68,10 +68,12 @@ for epoch in range(args.mask_epochs):
 
     torch.save(mask_trainer.mask.state_dict(), save_name + "_mask.pt")
     torch.save(
-        mask_trainer.mask_classifier.state_dict(), save_name + "_mask_classifier.pt"
+        mask_trainer.mask_classifier.state_dict(),
+        save_name + "_mask_classifier.pt",
     )
     torch.save(
-        mask_trainer.unmask_classifier.state_dict(), save_name + "_unmask_classifier.pt"
+        mask_trainer.unmask_classifier.state_dict(),
+        save_name + "_unmask_classifier.pt",
     )
 
     with open(save_name + ".csv", "w") as fp:

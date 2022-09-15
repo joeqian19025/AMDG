@@ -9,12 +9,12 @@ This folder contains the codes for preparing various Domain Generalization Datas
 This folder contains the codes for the definition and the training of the advererial mask.
 ### Training
 ```bash
-python mask/main.py
+python main_mask.py
 ```
 ### Visualization
 To obtain the visualization of a mask, run the following script:
 ``` bash
-python mask/visualize.py
+python mask_visualization.py
 ```
 ## classifier
 This folder contains the codes for training and evaluating the classification performance of the mask augmented training.

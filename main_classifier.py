@@ -50,7 +50,11 @@ testloader = torch.utils.data.DataLoader(
     num_workers=4,
 )
 
-save_name = f"{args.experiment_path}/" + get_save_name(args) + f"alpha{args.alpha}_encoder"
+save_name = (
+    f"{args.experiment_path}/"
+    + get_save_name(args)
+    + f"alpha{args.alpha}_encoder"
+)
 args.mask_path = f"{args.mask_path}/" + get_save_name(args) + "_mask.pt"
 
 trainer = ClassifierTrainer(args)

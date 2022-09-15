@@ -7,6 +7,7 @@ from torchvision import transforms
 
 from mask.prepare import *
 from mask.mask import Mask, Classifier, MaskTrainer
+from mask.utils import get_save_name
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 args.device = device
@@ -37,17 +38,11 @@ valloader = torch.utils.data.DataLoader(
     valset, batch_size=1, shuffle=True, sampler=None, num_workers=4,
 )
 
-save_name = "{}/{}_seed{}_env{}".format(
-    args.experiment_path, args.dataset, args.seed, args.test_envs,
-)
+save_name = get_save_name(args)
 
-mask = Mask(args)
-classifier = Classifier(args)
-mask_trainer = MaskTrainer(mask, classifier, args)
+mask_trainer = MaskTrainer(args)
 mask_trainer.load_state_dict(torch.load(save_name + ".pt"))
-print("Model Loaded")
 mask_trainer = mask_trainer.to(args.device)
-print("Model Sent to Device")
 os.system(f"mkdir {save_name}_visualization")
 mask_trainer.eval()
 
@@ -77,5 +72,5 @@ for i, (original_image, _) in enumerate(valloader):
         padding=25,
     )
     grid_image = ToPILImage()(grid)
-    grid_image.save(f"{save_name}_visualization/{i:4}.jpg")
-    print(f"Finished Proccessing {i:4}")
+    grid_image.save(f"{save_name}_visualization/{i:04}.jpg")
+    print(f"Finished Proccessing {i:04}")
