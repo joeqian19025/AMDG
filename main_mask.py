@@ -54,6 +54,8 @@ save_name = "{}/{}_seed{}_env{}".format(
 history = {
     "mask_loss": [],
     "classifier_loss": [],
+    "mask_acc": [],
+    "unmask_acc": []
 }
 
 print("Start Training")
