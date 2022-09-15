@@ -24,10 +24,12 @@ elif args.dataset == "domainNet":
 
 trainset = torch.utils.data.ConcatDataset(dataset.trainsets)
 valset = torch.utils.data.ConcatDataset(dataset.valsets)
+print("Dataset Loaded")
 
 # Initialize the Classifier and Trainer in the Adverserial Training
 mask_trainer = MaskTrainer(args)
 mask_trainer.to(args.device)
+print("Model Initialized")
 
 trainloader = torch.utils.data.DataLoader(
     trainset,
@@ -54,6 +56,7 @@ history = {
     "classifier_loss": [],
 }
 
+print("Start Training")
 # Start Training
 for epoch in range(args.mask_epochs):
     mask_loss, classifier_loss = mask_trainer.train_epoch(trainloader)
