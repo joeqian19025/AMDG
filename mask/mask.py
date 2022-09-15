@@ -125,7 +125,7 @@ class MaskTrainer(nn.Module):
                 self.mask_classifier(masked_data.detach()),
                 self.unmask_classifier(unmasked_data.detach()) if self.double_classifiers else self.mask_classifier(unmasked_data.detach()),
             )
-            total_classifier_loss = total_classifier_loss + classifier_loss
+            total_classifier_loss = total_classifier_loss + classifier_loss.item()
             self.mask_classifier_optimizer.zero_grad()
             if self.double_classifiers:
                 self.unmask_classifier_optimizer.zero_grad()
