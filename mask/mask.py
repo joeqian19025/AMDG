@@ -119,7 +119,7 @@ class MaskTrainer(nn.Module):
             self.mask_optimizer.zero_grad()
             mask_loss.backward()
             self.mask_optimizer.step()
-
+            print("Optimized Mask")
             classifier_loss = Loss.classifier_loss(
                 label,
                 self.mask_classifier(masked_data.detach()),
