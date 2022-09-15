@@ -75,10 +75,11 @@ for epoch in range(args.mask_epochs):
         mask_trainer.mask_classifier.state_dict(),
         save_name + "_mask_classifier.pt",
     )
-    torch.save(
-        mask_trainer.unmask_classifier.state_dict(),
-        save_name + "_unmask_classifier.pt",
-    )
+    if args.double_classifiers:
+        torch.save(
+            mask_trainer.unmask_classifier.state_dict(),
+            save_name + "_unmask_classifier.pt",
+        )
 
     with open(save_name + ".csv", "w") as fp:
         writer = csv.writer(fp)
