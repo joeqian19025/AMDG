@@ -145,7 +145,10 @@ class MaskTrainer(nn.Module):
                 image, label = image.to(self.device), label.to(self.device)
                 mask = self.mask(image)
                 mask_pred = self.mask_classifier(image * mask)
-                unmask_pred = self.unmask_classifier((1 - mask) * image)
+                if self.double_classifiers:
+                    unmask_pred = self.unmask_classifier((1 - mask) * image)
+                else:
+                    unmask_pred = self.mask_classifier((1 - mask) * image)
                 mask_acc = (torch.argmax(mask_pred, 1) == label).float().mean()
                 unmask_acc = (
                     (torch.argmax(unmask_pred, 1) == label).float().mean()
