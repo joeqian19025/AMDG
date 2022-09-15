@@ -1,5 +1,6 @@
 from datetime import datetime
 import csv
+from mask.utils import get_save_name
 import torch
 import torch.nn as nn
 
@@ -47,9 +48,7 @@ valloader = torch.utils.data.DataLoader(
     num_workers=4,
 )
 
-save_name = "{}/{}_seed{}_env{}".format(
-    args.experiment_path, args.dataset, args.seed, args.test_envs,
-)
+save_name = get_save_name(args)
 
 history = {
     "mask_loss": [],
@@ -85,4 +84,4 @@ for epoch in range(args.mask_epochs):
         writer = csv.writer(fp)
         writer.writerow([key for key in history])
         for e in range(epoch):
-            writer.writerow([history[key][epoch] for key in history])
+            writer.writerow([history[key][e] for key in history])
