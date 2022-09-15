@@ -100,6 +100,7 @@ class MaskTrainer(nn.Module):
     def train_epoch(self, dataloader):
         total_mask_loss = 0
         total_classifier_loss = 0
+        self.train()
         for data, label in dataloader:
             data = data.to(self.device)
             label = label.to(self.device)
@@ -139,7 +140,7 @@ class MaskTrainer(nn.Module):
     def calc_mask_acc(self, dataloader):
         mask_acc_meter = AverageMeter()
         unmask_acc_meter = AverageMeter()
-        self.mask_trainer.eval()
+        self.eval()
         with torch.no_grad():
             for image, label in dataloader:
                 image, label = image.to(self.device), label.to(self.device)
