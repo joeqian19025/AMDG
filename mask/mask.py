@@ -133,7 +133,8 @@ class MaskTrainer(nn.Module):
             self.mask_classifier_optimizer.step()
             if self.double_classifiers:
                 self.unmask_classifier_optimizer.step()
-        
+            print(total_mask_loss)
+            print(total_classifier_loss)
         return total_mask_loss, total_classifier_loss
 
     def calc_mask_acc(self, dataloader):
