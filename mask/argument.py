@@ -28,3 +28,6 @@ parser.add_argument("--mask_epochs", type=int, default=500)
 parser.add_argument("--batchsize", type=int, default=64)
 parser.add_argument("--lr", type=float, default=0.001)
 parser.add_argument("--weight_decay", type=float, default=0.001)
+
+parser.add_argument("--beta", type=float, default=1)
+parser.add_argument("--gamma", type=float, default=1)

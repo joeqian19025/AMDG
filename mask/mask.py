@@ -112,6 +112,8 @@ class MaskTrainer(nn.Module):
                 self.mask_classifier(masked_data),
                 self.unmask_classifier(unmasked_data) if self.double_classifiers else self.mask_classifier(unmasked_data),
                 mask,
+                self.beta,
+                self.gamma
             )
             total_mask_loss = total_mask_loss + mask_loss.item()
             self.mask_optimizer.zero_grad()

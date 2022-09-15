@@ -13,9 +13,9 @@ def classifier_loss(label, masked_output, inverse_masked_output):
     )
 
 
-def mask_loss(label, masked_output, inverse_masked_output, mask):
+def mask_loss(label, masked_output, inverse_masked_output, mask, beta, gamma):
     return (
         F.cross_entropy(masked_output, label)
-        - F.cross_entropy(inverse_masked_output, label)
-        + mask_regularizer(mask)
+        - beta * F.cross_entropy(inverse_masked_output, label)
+        + gamma * mask_regularizer(mask)
     )
