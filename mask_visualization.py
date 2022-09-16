@@ -52,19 +52,19 @@ for i, (original_image, _) in enumerate(valloader):
         mean=[0.485, 0.465, 0.406], std=[0.229, 0.224, 0.225]
     )(original_image)
     image = image.to(args.device)
-    mask = mask(image)
-    original_masked_image = mask * original_image
-    original_inverse_masked_image = (1 - mask) * original_image
-    masked_image = mask * image
-    inverse_masked_image = (1 - mask) * image
+    mask_t = mask(image)
+    original_masked_image = mask_t * original_image
+    original_inverse_masked_image = (1 - mask_t) * original_image
+    masked_image = mask_t * image
+    inverse_masked_image = (1 - mask_t) * image
     grid = make_grid(
         [
             original_image[0],
-            mask[0],
+            mask_t[0],
             original_masked_image[0],
             original_inverse_masked_image[0],
             image[0],
-            mask[0],
+            mask_t[0],
             masked_image[0],
             inverse_masked_image[0],
         ],
