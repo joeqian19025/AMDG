@@ -6,7 +6,7 @@ from torchvision.transforms import ToPILImage
 from torchvision import transforms
 
 from mask.prepare import *
-from mask.mask import Mask, Classifier, MaskTrainer
+from mask.mask import Mask
 from mask.utils import get_save_name
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -40,11 +40,11 @@ valloader = torch.utils.data.DataLoader(
 
 save_name = get_save_name(args)
 
-mask_trainer = MaskTrainer(args)
-mask_trainer.load_state_dict(torch.load(save_name + ".pt"))
-mask_trainer = mask_trainer.to(args.device)
+mask = Mask(args)
+mask.load_state_dict(torch.load(save_name + "_mask.pt"))
+mask = mask.to(args.device)
 os.system(f"mkdir {save_name}_visualization")
-mask_trainer.eval()
+mask.eval()
 
 for i, (original_image, _) in enumerate(valloader):
     original_image = original_image.to(args.device)
@@ -52,7 +52,7 @@ for i, (original_image, _) in enumerate(valloader):
         mean=[0.485, 0.465, 0.406], std=[0.229, 0.224, 0.225]
     )(original_image)
     image = image.to(args.device)
-    mask = mask_trainer.mask(image)
+    mask = mask(image)
     original_masked_image = mask * original_image
     original_inverse_masked_image = (1 - mask) * original_image
     masked_image = mask * image
