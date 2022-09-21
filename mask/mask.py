@@ -43,9 +43,9 @@ class Classifier(nn.Module):
                 model = models.resnet18(pretrained=False)
         elif self.classifier == "resnet50":
             if self.classifier_pretrained == "True":
-                model = models.resnet50(weights="IMAGENET1K_V2")
+                model = models.resnet50(pretrained=True)
             else:
-                model = models.resnet50(weights=None)
+                model = models.resnet50(pretrained=False)
         model.fc = nn.Linear(model.fc.in_features, self.num_classes)
         self.model = model
         if torch.cuda.device_count() > 1:
