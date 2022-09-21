@@ -41,7 +41,7 @@ class Classifier(nn.Module):
                 model = models.resnet18(pretrained=True)
             else:
                 model = models.resnet18(pretrained=False)
-        elif self.encoder == "resnet50":
+        elif self.classifier == "resnet50":
             if self.encoder_pretrained == "True":
                 model = models.resnet50(weights="IMAGENET1K_V2")
             else:
