@@ -25,7 +25,7 @@ elif args.dataset == "domainNet":
 
 trainset = torch.utils.data.ConcatDataset(dataset.trainsets)
 valset = torch.utils.data.ConcatDataset(dataset.valsets)
-print("Dataset Loaded")
+print(f"Dataset Loaded, train: {len(trainset)}, val: {len(valset)}")
 
 # Initialize the Classifier and Trainer in the Adverserial Training
 mask_trainer = MaskTrainer(args)
