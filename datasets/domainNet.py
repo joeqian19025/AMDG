@@ -1,7 +1,7 @@
 import os
 import torch
 from torchvision import transforms
-from base import MultipleEnvironmentImageFolder
+from datasets.base import MultipleEnvironmentImageFolder
 import copy
 
 
