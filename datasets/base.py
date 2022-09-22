@@ -23,7 +23,7 @@ class MultipleEnvironmentImageFolder(MultipleDomainDataset):
         environments = sorted(environments)
 
         transform = transforms.Compose([                                         
-            transforms.Resize(224),
+            transforms.Resize((224, 224)),
             transforms.ToTensor(),
             transforms.Normalize(
                 mean = [0.485, 0.465, 0.406],

@@ -27,7 +27,7 @@ elif args.dataset == "domainNet":
         args.dataset_folder, args.test_envs, args.train_val_ratio
     )
 transform = transforms.Compose(
-    [transforms.Resize(224), transforms.ToTensor(),]
+    [transforms.Resize((224, 224)), transforms.ToTensor(),]
 )
 for valset in dataset.valsets:
     valset.dataset = copy.copy(valset.dataset)
