@@ -40,14 +40,6 @@ trainloader = torch.utils.data.DataLoader(
     num_workers=4,
 )
 
-valloader = torch.utils.data.DataLoader(
-    valset,
-    batch_size=args.batchsize,
-    shuffle=True,
-    sampler=None,
-    num_workers=4,
-)
-
 save_name = get_save_name(args)
 
 history = {
@@ -87,6 +79,13 @@ if args.use_iterations:
 else:
     history["mask_acc"] = []
     history["unmask_acc"] = []
+    valloader = torch.utils.data.DataLoader(
+        valset,
+        batch_size=args.batchsize,
+        shuffle=True,
+        sampler=None,
+        num_workers=4,
+        )
     for epoch in range(args.mask_epochs):
         mask_loss, classifier_loss = mask_trainer.train_epoch(trainloader)
         mask_acc, unmask_acc = mask_trainer.calc_mask_acc(valloader)
