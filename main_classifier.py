@@ -55,7 +55,6 @@ save_name = (
     + get_save_name(args)
     + f"alpha{args.alpha}_encoder"
 )
-args.mask_path = f"{args.mask_path}/" + get_save_name(args) + "_mask.pt"
 
 trainer = ClassifierTrainer(args)
 trainer.to(args.device)
