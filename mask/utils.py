@@ -2,10 +2,11 @@ import torch
 
 
 def get_save_name(args):
-    return "{}/{}_seed{}_env{}_beta{}_gamma{}_{}".format(
+    return "{}/{}_seed{}_env{}_beta{}_gamma{}_{}{}".format(
         args.experiment_path, args.dataset, args.seed, args.test_envs,
         args.beta, args.gamma,
-        "doubleClassifiers" if args.double_classifiers else ""
+        "doubleClassifiers" if args.double_classifiers else "",
+        "_useIterations" if args.use_iterations else "",
     )
 
 

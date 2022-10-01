@@ -97,43 +97,51 @@ class MaskTrainer(nn.Module):
                 self.unmask_classifier_optimizer, self.mask_epochs
             )
 
+    def train_iteration(self, data, label):
+        self.train()
+        data = data.to(self.device)
+        label = label.to(self.device)
+        mask = self.mask(data)
+        masked_data = mask * data
+        unmasked_data = (1 - mask) * data
+
+        mask_loss = Loss.mask_loss(
+            label,
+            self.mask_classifier(masked_data),
+            self.unmask_classifier(unmasked_data) if self.double_classifiers else self.mask_classifier(unmasked_data),
+            mask,
+            self.beta,
+            self.gamma
+        )
+        
+        self.mask_optimizer.zero_grad()
+        mask_loss.backward()
+        self.mask_optimizer.step()
+
+        classifier_loss = Loss.classifier_loss(
+            label,
+            self.mask_classifier(masked_data.detach()),
+            self.unmask_classifier(unmasked_data.detach()) if self.double_classifiers else self.mask_classifier(unmasked_data.detach()),
+        )
+
+        self.mask_classifier_optimizer.zero_grad()
+        if self.double_classifiers:
+            self.unmask_classifier_optimizer.zero_grad()
+        classifier_loss.backward()
+        self.mask_classifier_optimizer.step()
+        if self.double_classifiers:
+            self.unmask_classifier_optimizer.step()
+
+        return mask_loss.item(), classifier_loss.item()
+
     def train_epoch(self, dataloader):
         total_mask_loss = 0
         total_classifier_loss = 0
-        self.train()
+        
         for data, label in dataloader:
-            data = data.to(self.device)
-            label = label.to(self.device)
-            mask = self.mask(data)
-            masked_data = mask * data
-            unmasked_data = (1 - mask) * data
-
-            mask_loss = Loss.mask_loss(
-                label,
-                self.mask_classifier(masked_data),
-                self.unmask_classifier(unmasked_data) if self.double_classifiers else self.mask_classifier(unmasked_data),
-                mask,
-                self.beta,
-                self.gamma
-            )
-            total_mask_loss = total_mask_loss + mask_loss.item()
-            self.mask_optimizer.zero_grad()
-            mask_loss.backward()
-            self.mask_optimizer.step()
-
-            classifier_loss = Loss.classifier_loss(
-                label,
-                self.mask_classifier(masked_data.detach()),
-                self.unmask_classifier(unmasked_data.detach()) if self.double_classifiers else self.mask_classifier(unmasked_data.detach()),
-            )
-            total_classifier_loss = total_classifier_loss + classifier_loss.item()
-            self.mask_classifier_optimizer.zero_grad()
-            if self.double_classifiers:
-                self.unmask_classifier_optimizer.zero_grad()
-            classifier_loss.backward()
-            self.mask_classifier_optimizer.step()
-            if self.double_classifiers:
-                self.unmask_classifier_optimizer.step()
+            mask_loss, classifier_loss = self.train_iteration(data, label)
+            total_mask_loss += mask_loss
+            total_classifier_loss += classifier_loss
 
         return total_mask_loss, total_classifier_loss
 
