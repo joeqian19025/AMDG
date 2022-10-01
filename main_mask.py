@@ -53,8 +53,6 @@ save_name = get_save_name(args)
 history = {
     "mask_loss": [],
     "classifier_loss": [],
-    "mask_acc": [],
-    "unmask_acc": []
 }
 
 print("Start Training")
@@ -87,6 +85,8 @@ if args.use_iterations:
                 for e in range(iterations):
                     writer.writerow([history[key][e] for key in history])
 else:
+    history["mask_acc"] = []
+    history["unmask_acc"] = []
     for epoch in range(args.mask_epochs):
         mask_loss, classifier_loss = mask_trainer.train_epoch(trainloader)
         mask_acc, unmask_acc = mask_trainer.calc_mask_acc(valloader)
